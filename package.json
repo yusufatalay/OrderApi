@@ -1,0 +1,36 @@
+{
+  "name": "orderapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node ./api/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yusufatalay/OrderApi.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yusufatalay/OrderApi/issues"
+  },
+  "homepage": "https://github.com/yusufatalay/OrderApi#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/plugin-transform-runtime": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/register": "^7.12.10",
+    "@babel/runtime": "^7.12.5",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.15.0"
+  }
+}
