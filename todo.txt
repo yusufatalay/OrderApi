@@ -1,5 +1,7 @@
-* install es6 compliant postgres configured sequeliser 
-* install eslint
-
 
 * deploy this project to heroku
+
+// Todo : 
+// turn basket into an order 
+// create orders table -> owner_id , status (int), total_price (int), pr
+/ turn provided usrs basket into an order 

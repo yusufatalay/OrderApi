@@ -3,7 +3,7 @@ module.exports = {
 	'development': {
 		'username': 'postgres',
 		'password': 'Killer14',
-		'database': 'gomovies',
+		'database': 'exampledb',
 		'host': '127.0.0.1',
 		'dialect': 'postgres'
 	},
