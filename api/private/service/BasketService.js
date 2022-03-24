@@ -12,8 +12,6 @@ class BasketService {
 
 			};
 			//	check if that item already exists in the basket
-			console.log('LOG');
-			console.log(item);
 			const basketitem = await db.Baskets.findOne({
 				where: {
 					ownerid: item.ownerid,
@@ -24,7 +22,6 @@ class BasketService {
 				}
 
 			});
-
 
 			if (basketitem) {
 				/*
@@ -57,7 +54,6 @@ class BasketService {
 			throw (error);
 		}
 	}
-
 
 }
 

@@ -1,45 +1,61 @@
-import db from "../../src/models";
+import db from '../../src/models';
 
 class OrderService {
 	static async createorder(request) {
 		try {
-			const user_id = request.userid;
-			const user_basket = await db.Baskets.findAll({
+			/*
+			 * get user id from the request's token (request.userid) 
+			 * get user's basket along with the products in it
+			 * calculate the basket total
+			 * create an orde object and return it
+			 */
+
+			// check if user exists or not
+
+			const user = await db.Users.findOne({
 				where: {
-					ownerid: user_id
+					id: request.userid
+				}
+			});
+			if (!user) {
+				return { message: 'User does not exist', type: false };
+			}
+
+
+			const userbasket = await db.Baskets.findAll({
+				where: {
+					ownerid: request.userid
+				},
+				include: {
+					model: db.Products
 				}
 			});
 
-			// if user_basket is null then user has no item in his/her basket
-			if (user_basket.length !== 0) {
-				return { message: 'User basket does not exist', type: false };
+			if (!userbasket) {
+				return { message: 'User does not have a basket', type: false };
 			}
-			// user's basket do exists then get required information from it.
+			// calculate basket total
 			let basket_total = 0;
-
-			user_basket.forEach(async (item) => {
-				const product = await db.Products.findOne({
-					where: {
-						id: item.product_id
-					}
-				});
-
-				basket_total += product.price;
+			let userproducts = [];
+			userbasket.forEach(basketinstance => {
+				basket_total += basketinstance.Product.price;
+				userproducts.push(basketinstance.Product.name);
 			});
 
+			//  create an order instance
 			return {
 				data: {
-					user_id: user_id,
-					total_price: basket_total,
-					status : 1
+					userid: request.userid,
+					baskettotal: basket_total,
+					items: userproducts
 				},
-				message : 'OK',
+				message: 'Order created',
 				type: true
-			}
+			};
 
 		}
 		catch (error) {
-			throw (error);
+			throw error;
 		}
 	}
 
