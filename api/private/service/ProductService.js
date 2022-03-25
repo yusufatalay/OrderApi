@@ -1,13 +1,26 @@
 import db from '../../src/models';
-
 class ProductService {
 
 	static async getall() {
 		try {
+			const products = await db.Products.findAll({
+				include: {
+					model: db.SubCategories,
+					attributes: [],
+					include: {
+						model: db.Categories,
+						attributes: []
 
-			const products = await db.Products.findAll();
+					}
+				},
+				attributes: ['id',
+					'name',
+					[db.Sequelize.col('SubCategory.name'), 'sub_cat_name'],
+					[db.Sequelize.col('SubCategory.Category.name'), 'cat_name']]
+			});
+			// get sub categories and categorues  {}
 
-			return products;
+			return { products };
 
 		}
 		catch (error) {

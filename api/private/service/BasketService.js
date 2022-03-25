@@ -55,6 +55,72 @@ class BasketService {
 		}
 	}
 
+	static async getbasket(request) {
+		try {
+			/*
+			 * get user id from the request's token (request.userid) 
+			 * get user's basket along with the products in it
+			 * calculate the basket total
+			 * create an orde object and return it
+			 */
+
+			const user = await db.Users.findOne({
+				where: {
+					id: request.userid
+				}
+			});
+			if (!user) {
+				return { message: 'User does not exist', type: false };
+			}
+
+			const userbasket = await db.Baskets.findAll({
+				where: {
+					ownerid: request.userid
+				},
+				include: {
+					model: db.Products,
+					attributes: []
+				},
+				attributes: [
+					'id',
+					'ownerid',
+					'productid',
+					'productamount',
+					[db.Sequelize.col('Product.price'), 'unit_price']
+				],
+				// group: [ 'id', 'ownerid', 'productid', 'productamount' ]
+				raw: true
+
+			});
+
+			if (!userbasket) {
+				return { message: 'User does not have a basket', type: false };
+			}
+
+
+			let basket_total = userbasket.reduce((total, current) => {
+				return total + (current.productamount * current.unit_price);
+
+			}, 0);
+
+			//  create an order instance
+			return {
+
+				data: {
+					userid: request.userid,
+					baskettotal: basket_total,
+					items: userbasket
+				},
+				message: 'Order created',
+				type: true
+
+			};
+		} 
+		catch (error) {
+			throw error;
+		}
+	}
+
 }
 
 export default BasketService;

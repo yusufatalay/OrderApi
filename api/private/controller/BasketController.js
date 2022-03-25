@@ -9,6 +9,11 @@ class BasketController {
 
 	}
 
+	static async handlegetbasket(request, response) {
+		const basketinfo = await BasketService.getbasket(request);
+		response.json(basketinfo);
+	}
+
 }
 
 export default BasketController;
