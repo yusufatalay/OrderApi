@@ -18,7 +18,6 @@ class Helpers {
 		if (authHeader === null) return res.sendStatus(401);
 
 		jwt.verify(authHeader, process.env.TOKEN_SECRET, (err, data) => {
-			console.log(data);
 			req.userid = data.user;
 			if (err) return res.sendStatus(403);
 

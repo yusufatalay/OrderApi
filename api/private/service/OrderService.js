@@ -11,7 +11,6 @@ class OrderService {
 
 			userorder.data.items.forEach(item => {
 				orderitems.push({ item_id: item.productid, item_amount: item.productamount });
-				console.log(item)
 			});
 
 			const dbrow = {
@@ -24,21 +23,19 @@ class OrderService {
 			const dbentry = await db.Orders.create(dbrow,
 
 				{
-					include: [{
+					include: [ {
 						model: db.OrderItems
 
-					}]
+					} ]
 				}
 			);
 
-			console.log(dbentry);
-			console.log(userorder);
 
 			if (!userorder) {
-				return { message: 'Cannot create an order', type: false };
+				return {data: null, message: 'Cannot create an order', type: false };
 
 			}
-			return { message: 'Order created', type: true };
+			return { data: dbentry, message: 'Order created', type: true };
 
 		}
 		catch (error) {
