@@ -15,7 +15,7 @@ class ProductService {
 				},
 				attributes: ['id',
 					'name',
-					[db.Sequelize.col('SubCategory.name'), 'sub_cat_name'],
+					[db.Sequelqize.col('SubCategory.name'), 'sub_cat_name'],
 					[db.Sequelize.col('SubCategory.Category.name'), 'cat_name']]
 			});
 			// get sub categories and categorues  {}
