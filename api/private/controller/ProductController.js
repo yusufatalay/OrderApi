@@ -12,7 +12,11 @@ class ProductController {
 		}
 
 	}
-	
-}
 
+	static async handleaddproduct(request, response) {
+		const result = await ProductService.addproduct(request);
+		response.json(result);
+	}
+
+}
 export default ProductController;

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import db from '../src/models';
 class Helpers {
 
 	static getFileRoute(filename) {
@@ -23,6 +24,56 @@ class Helpers {
 
 			next();
 		});
+	}
+
+	static authorizeUser(permission_id) {
+		return async (req, res, next) => {
+			/*
+			 * get user's permissions
+			 * check if user's permission's includes given permission in the parameter
+			 * response accordingly (401 for unauthorized)
+			 */
+
+			/*
+			 * to reach user permission the table path looks like this
+			 * userid -> userrole -> role -> rolepermission -> permission
+			 */
+			try {
+
+				const result = await db.Users.findOne({
+					where: {
+						id: req.userid
+					},
+					include: {
+						model: db.Roles,
+						include: {
+							model: db.Permissions,
+							where: {
+								id: permission_id
+							},
+							through: {
+								attributes: []
+							}
+						},
+						through: {
+							attributes: []
+						}
+					}
+				});
+				const perm = JSON.parse(JSON.stringify(result));
+				if (perm.Roles.length === 0) {
+					res.status(401).json({ message: 'unauthorized', type: false });
+				}
+				else {
+					next();
+				}
+
+			}
+			catch (error) {
+				throw error;
+			}
+
+		};
 	}
 
 }
