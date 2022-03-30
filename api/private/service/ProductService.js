@@ -1,4 +1,5 @@
 import db from '../../src/models';
+import { validate_product } from '../validation/ProductValidation';
 class ProductService {
 
 	static async getall() {
@@ -38,14 +39,18 @@ class ProductService {
 				price: request.body.price,
 				sub_category_id: request.body.sub_category_id
 			};
+			// validate product
+			const validated_product = validate_product(product);
+			if (!validated_product.type) {
+				return { message: validated_product.message, type: validated_product.type }
+			}
 
 			// check if the subcategory already exists
-			console.log(product);
 			const subcat = await db.Categories.findOne({
 				where: {
 					id: product.sub_category_id
 				},
-				include:{
+				include: {
 					model: db.Products
 				}
 			});
@@ -70,7 +75,7 @@ class ProductService {
 			const addedproduct = await db.Products.create(product);
 			return { data: addedproduct, message: 'Production added', type: true };
 
-		} 
+		}
 		catch (error) {
 			throw error;
 		}

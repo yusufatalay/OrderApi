@@ -1,4 +1,5 @@
 import db from '../../src/models';
+import { validate_item } from '../validation/BasketValidation';
 
 class BasketService {
 
@@ -11,6 +12,11 @@ class BasketService {
 				productamount: request.body.productamount
 
 			};
+			// validate added item
+			const validated_item = validate_item(item);
+			if (!validated_item.type) {
+				return validated_item;
+			}
 			//	check if that item already exists in the basket
 			const basketitem = await db.Baskets.findOne({
 				where: {
@@ -31,13 +37,13 @@ class BasketService {
 				const updatedbasket = await db.Baskets.update({
 					productamount: item.productamount + basketitem.productamount
 				},
-				{
-					where: {
-						productid: basketitem.productid,
-						ownerid: basketitem.ownerid
-					}
+					{
+						where: {
+							productid: basketitem.productid,
+							ownerid: basketitem.ownerid
+						}
 
-				}
+					}
 				);
 				if (updatedbasket === 0) {
 					return { message: 'Basket not updated', type: false };
@@ -115,7 +121,7 @@ class BasketService {
 				type: true
 
 			};
-		} 
+		}
 		catch (error) {
 			throw error;
 		}
