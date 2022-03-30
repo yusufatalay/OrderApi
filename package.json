@@ -22,6 +22,7 @@
     "body-parser": "^1.19.2",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "express-swagger-generator": "^1.1.17",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",

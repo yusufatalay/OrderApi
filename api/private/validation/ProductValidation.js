@@ -18,4 +18,4 @@ export const validate_product = (product) => {
 		return { message: result.error.details[0].message, type: false };
 	}
 	return true;
-}
+};

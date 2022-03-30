@@ -42,7 +42,7 @@ class ProductService {
 			// validate product
 			const validated_product = validate_product(product);
 			if (!validated_product.type) {
-				return { message: validated_product.message, type: validated_product.type }
+				return { message: validated_product.message, type: false };
 			}
 
 			// check if the subcategory already exists
