@@ -13,8 +13,19 @@ module.exports = {
 			],
 			schemes: ['http'],
 			// securityDefinition
+			securityDefinitions: {
+				JWT: {
+					type: 'apiKey',
+					in: 'header',
+					name: 'Authorization',
+					description: 'Users are authorized with JWT'
+				}
+			}
 		},
 		basedir: __dirname,
-		files: ['../../account/controllers/**/*.js', '../../account/controllers/**/*.js']
+		files: [
+			'../../public/controller/**/*.js',
+			'../../private/controller/**/*.js'
+		]
 	}
-};
+}

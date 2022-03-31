@@ -4,7 +4,7 @@ import http from 'http';
 import pb from './public';
 import prv from './private';
 import parser from 'body-parser';
-import {swaggerOptions} from '../api/src/config/settings';
+import { swaggerOptions } from '../api/src/config/settings';
 
 const app = express();
 const expressSwaggerGenerator = require('express-swagger-generator')(app);

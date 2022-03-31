@@ -1,6 +1,8 @@
 import db from '../../src/models';
 import { validate_item } from '../validation/BasketValidation';
 
+
+
 class BasketService {
 
 	static async additem(request) {
@@ -37,13 +39,13 @@ class BasketService {
 				const updatedbasket = await db.Baskets.update({
 					productamount: item.productamount + basketitem.productamount
 				},
-					{
-						where: {
-							productid: basketitem.productid,
-							ownerid: basketitem.ownerid
-						}
-
+				{
+					where: {
+						productid: basketitem.productid,
+						ownerid: basketitem.ownerid
 					}
+
+				}
 				);
 				if (updatedbasket === 0) {
 					return { message: 'Basket not updated', type: false };
